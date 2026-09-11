@@ -34,6 +34,54 @@ const helpTexts = [
 let state = {};
 let toastTimer = null;
 
+/*
+ * Firefox peut agrandir uniquement le texte sans réduire la largeur CSS de la
+ * fenêtre. Dans ce cas, les media queries classiques ne voient pas le zoom.
+ * Cette sonde compare un texte HTML à la même mesure dans un canvas, puis
+ * active une mise en page plus souple sans demander de réglage à l'élève.
+ */
+function installTextZoomDetection() {
+  const probeText = "MMMMMMMMMM";
+  const probe = document.createElement("span");
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  probe.setAttribute("aria-hidden", "true");
+  probe.style.cssText = "position:fixed;left:-10000px;top:-10000px;display:inline-block;width:max-content;white-space:nowrap;font:400 16px Arial,sans-serif;line-height:normal;visibility:hidden;pointer-events:none;";
+  probe.textContent = probeText;
+  document.body.appendChild(probe);
+
+  if (context) context.font = "400 16px Arial, sans-serif";
+  const expectedWidth = context ? context.measureText(probeText).width : 151;
+
+  function updateTextZoomMode() {
+    const measuredWidth = probe.getBoundingClientRect().width;
+    const scale = expectedWidth > 0 ? measuredWidth / expectedWidth : 1;
+    let mode = "normal";
+
+    if (scale >= 1.45) mode = "very-high";
+    else if (scale >= 1.14) mode = "high";
+
+    document.documentElement.dataset.textZoom = mode;
+    document.documentElement.style.setProperty("--detected-text-scale", Math.max(1, scale).toFixed(2));
+  }
+
+  updateTextZoomMode();
+  window.addEventListener("resize", updateTextZoomMode, { passive: true });
+  window.addEventListener("pageshow", updateTextZoomMode, { passive: true });
+
+  if (typeof ResizeObserver === "function") {
+    const observer = new ResizeObserver(updateTextZoomMode);
+    observer.observe(probe);
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(updateTextZoomMode);
+  }
+}
+
+installTextZoomDetection();
+
 function freshState() {
   return {
     current: 0,
