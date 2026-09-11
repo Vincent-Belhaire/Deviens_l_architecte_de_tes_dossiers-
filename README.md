@@ -10,10 +10,12 @@ Mini-site autonome pour une séance de 55 minutes. Aucune installation ni connex
 
 Le site peut être copié sur le réseau du collège ou sur une clé USB. Les fichiers `index.html`, `style.css` et `script.js` doivent rester ensemble dans le même dossier.
 
+La mise en page s’adapte automatiquement et en direct à la taille de l’écran, au zoom classique et au mode Firefox « zoom du texte uniquement ». Les largeurs ne sont plus plafonnées sur les grands écrans : les élèves n’ont aucun réglage à effectuer.
+
 ## Publication avec GitHub Pages
 
 1. Créer un nouveau dépôt GitHub public, par exemple `Architecte-des-dossiers`.
-2. Ajouter à la racine du dépôt : `index.html`, `style.css`, `script.js` et ce fichier `README.md`.
+2. Ajouter ou remplacer à la racine du dépôt : `index.html`, `style.css`, `script.js` et ce fichier `README.md`. Il faut bien publier les trois fichiers du site ensemble : les liens versionnés dans `index.html` évitent que GitHub Pages ou les postes du collège conservent une ancienne mise en page en cache.
 3. Dans le dépôt, ouvrir **Settings > Pages**.
 4. Dans **Build and deployment**, choisir **Deploy from a branch**.
 5. Sélectionner la branche `main`, le dossier `/ (root)`, puis cliquer sur **Save**.
