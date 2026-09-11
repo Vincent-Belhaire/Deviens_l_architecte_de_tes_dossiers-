@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2c2a4a">
+  <meta name="description" content="Séance 3 TICE 6e : apprendre à organiser ses dossiers et retrouver ses fichiers.">
+  <title>Architecte des dossiers · Mission TICE 6e</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au défi</a>
+
+  <header class="site-header">
+    <button class="brand" id="homeButton" type="button" aria-label="Retour à l’accueil">
+      <span class="brand-mark" aria-hidden="true">⌁</span>
+      <span>Le Bureau <strong>Mystère</strong></span>
+    </button>
+    <div class="header-actions">
+      <span class="level-pill">TICE · 6e</span>
+      <button class="ghost-button" id="helpButton" type="button">? Aide</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="welcome" id="welcomeScreen">
+      <div class="hero-copy">
+        <p class="eyebrow">MISSION TICE · SÉANCE 03</p>
+        <h1>Deviens l’architecte<br>de tes <span>dossiers !</span></h1>
+        <p class="hero-lead">Pixel a retrouvé les fichiers du labo… mais tout est mélangé. Construis une arborescence solide pour remettre chaque document à sa place.</p>
+        <div class="hero-actions">
+          <button class="primary-button" id="startButton" type="button">Commencer la mission <span aria-hidden="true">→</span></button>
+          <div class="session-meta"><strong>55 min</strong><span>Seul ou en binôme</span></div>
+        </div>
+      </div>
+
+      <div class="mission-dossier" aria-label="Dossier de mission">
+        <div class="folder-tab">CONFIDENTIEL</div>
+        <div class="dossier-sheet">
+          <div class="pixel-badge" aria-hidden="true">⌁</div>
+          <p class="note-label">MESSAGE DE PIXEL</p>
+          <h2>Agent, à toi de classer !</h2>
+          <p>Observe les chemins, choisis des noms clairs et garde ton calme : une bonne organisation se construit étape par étape.</p>
+          <span class="stamp">7 DÉFIS</span>
+        </div>
+      </div>
+
+      <section class="mission-plan" aria-labelledby="planTitle">
+        <p class="eyebrow">TON PLAN DE MISSION</p>
+        <h2 id="planTitle">Une séance pour ne plus perdre ton travail</h2>
+        <div class="plan-grid">
+          <div class="plan-step"><span>05</span><strong>Briefing</strong><small>Lire un chemin</small></div>
+          <div class="plan-step"><span>08</span><strong>Construction</strong><small>Créer des dossiers</small></div>
+          <div class="plan-step"><span>15</span><strong>Explorateur</strong><small>Bâtir l’arborescence</small></div>
+          <div class="plan-step"><span>12</span><strong>Classement</strong><small>Nommer et enregistrer</small></div>
+          <div class="plan-step"><span>10</span><strong>Recherche</strong><small>Retrouver et ranger</small></div>
+          <div class="plan-step"><span>05</span><strong>Bilan</strong><small>Valider la mission</small></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="mission-shell" id="missionScreen" hidden>
+      <div class="mission-bar" aria-label="Progression de la mission">
+        <strong id="progressLabel">Défi 1 sur 7</strong>
+        <div class="progress-track"><span id="progressFill"></span></div>
+        <strong class="score"><span aria-hidden="true">★</span> <span id="scoreValue">0</span> pts</strong>
+      </div>
+      <div id="challengeHost"></div>
+    </section>
+  </main>
+
+  <footer>Tice - Technologie - Vincent Belhaire</footer>
+
+  <dialog id="helpDialog" class="help-dialog">
+    <div class="dialog-head">
+      <div><p class="eyebrow">COUP DE POUCE</p><h2 id="helpTitle">Besoin d’aide ?</h2></div>
+      <button class="icon-button" id="closeHelp" type="button" aria-label="Fermer l’aide">×</button>
+    </div>
+    <div id="helpContent"></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
