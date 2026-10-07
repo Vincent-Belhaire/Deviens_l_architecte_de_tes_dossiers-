@@ -323,7 +323,7 @@ function renderChallenge2() {
     '<button class="primary-button" id="checkOrder" type="button">Vérifier l’ordre</button>',
     feedbackHtml("Commence par te placer dans le bon dossier parent.", "")
   ].join("");
-  challengeHost.innerHTML = challengeFrame(2, "MODE D’EMPLOI", "La recette du dossier", "Remets les cinq étapes dans le bon ordre.", 6, body);
+  challengeHost.innerHTML = challengeFrame(2, "MODE D’EMPLOI", "La recette du dossier", "Remets les cinq étapes dans le bon ordre, pour créer un nouveau dossier dans le dossier Technologie.", 6, body);
   drawSortList();
   document.querySelector("#checkOrder").addEventListener("click", checkSortOrder);
 }
@@ -405,7 +405,7 @@ function renderChallenge3() {
     '</div>',
     feedbackHtml("Crée d’abord TICE dans Technologie.", "")
   ].join("");
-  challengeHost.innerHTML = challengeFrame(3, "FAUX EXPLORATEUR", "Construis ton arborescence", "Dans l’explorateur, crée TICE puis Documents, Images et À rendre.", 15, body);
+  challengeHost.innerHTML = challengeFrame(3, "FAUX EXPLORATEUR", "Construis ton arborescence", "Dans l’explorateur, crée un dossier TICE puis Documents, Images et À rendre.", 15, body);
   drawExplorer();
   document.querySelector("#newFolder").addEventListener("click", function () {
     const form = document.querySelector("#folderForm");
