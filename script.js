@@ -322,7 +322,7 @@ function renderChallenge2() {
     '<button class="primary-button" id="checkOrder" type="button">Vérifier l’ordre</button>',
     feedbackHtml("Commence par te placer dans le bon dossier parent.", "")
   ].join("");
-  challengeHost.innerHTML = challengeFrame(2, "MODE D’EMPLOI", "La recette du dossier", "Remets les cinq étapes dans le bon ordre, pour créer un nouveau dossier dans le dossier Technologie.", 6, body);
+  challengeHost.innerHTML = challengeFrame(2, "MODE D’EMPLOI", "La recette du dossier", "Remets les cinq étapes dans le bon ordre, pour créer un nouveau dossier "TICE" dans le dossier Technologie.", 6, body);
   drawSortList();
   document.querySelector("#checkOrder").addEventListener("click", checkSortOrder);
 }
