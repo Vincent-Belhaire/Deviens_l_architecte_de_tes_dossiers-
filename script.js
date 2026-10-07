@@ -82,6 +82,65 @@ function installTextZoomDetection() {
 
 installTextZoomDetection();
 
+/*
+ * Le zoom classique change le ratio de pixels du navigateur et/ou la largeur
+ * de sa zone visible. On écoute les deux valeurs pour réorganiser la page au
+ * moment même où l'utilisateur zoome, y compris dans Firefox et Chromium.
+ */
+function installLiveZoomLayout() {
+  const initialPixelRatio = window.devicePixelRatio || 1;
+  let animationFrame = 0;
+  let resolutionQuery = null;
+
+  function visibleWidth() {
+    const viewportWidth = window.visualViewport && window.visualViewport.width;
+    return Math.min(window.innerWidth || Infinity, viewportWidth || Infinity);
+  }
+
+  function updateLayout() {
+    animationFrame = 0;
+    const currentPixelRatio = window.devicePixelRatio || initialPixelRatio;
+    const relativeZoom = currentPixelRatio / initialPixelRatio;
+    const width = visibleWidth();
+    let mode = "normal";
+
+    if (relativeZoom >= 1.34 || width < 760) mode = "very-in";
+    else if (relativeZoom >= 1.12 || width < 1120) mode = "in";
+    else if (relativeZoom <= 0.86) mode = "out";
+
+    document.documentElement.dataset.pageZoom = mode;
+    document.documentElement.style.setProperty("--live-page-zoom", relativeZoom.toFixed(3));
+    document.documentElement.style.setProperty("--live-viewport-width", Math.round(width) + "px");
+  }
+
+  function queueUpdate() {
+    if (animationFrame) cancelAnimationFrame(animationFrame);
+    animationFrame = requestAnimationFrame(updateLayout);
+  }
+
+  function watchResolution() {
+    if (resolutionQuery) resolutionQuery.removeEventListener("change", handleResolutionChange);
+    resolutionQuery = window.matchMedia("(resolution: " + (window.devicePixelRatio || 1) + "dppx)");
+    resolutionQuery.addEventListener("change", handleResolutionChange);
+  }
+
+  function handleResolutionChange() {
+    queueUpdate();
+    watchResolution();
+  }
+
+  updateLayout();
+  watchResolution();
+  window.addEventListener("resize", queueUpdate, { passive: true });
+  window.addEventListener("orientationchange", queueUpdate, { passive: true });
+  window.addEventListener("pageshow", queueUpdate, { passive: true });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", queueUpdate, { passive: true });
+  }
+}
+
+installLiveZoomLayout();
+
 function freshState() {
   return {
     current: 0,
@@ -264,7 +323,7 @@ function renderChallenge2() {
     '<button class="primary-button" id="checkOrder" type="button">Vérifier l’ordre</button>',
     feedbackHtml("Commence par te placer dans le bon dossier parent.", "")
   ].join("");
-  challengeHost.innerHTML = challengeFrame(2, "MODE D’EMPLOI", "La recette du dossier", "Remets les cinq étapes dans le bon ordre.", 6, body);
+  challengeHost.innerHTML = challengeFrame(2, "MODE D’EMPLOI", "La recette du dossier", "Remets les cinq étapes dans le bon ordre, pour créer un nouveau dossier dans le dossier Technologie.", 6, body);
   drawSortList();
   document.querySelector("#checkOrder").addEventListener("click", checkSortOrder);
 }
@@ -346,7 +405,7 @@ function renderChallenge3() {
     '</div>',
     feedbackHtml("Crée d’abord TICE dans Technologie.", "")
   ].join("");
-  challengeHost.innerHTML = challengeFrame(3, "FAUX EXPLORATEUR", "Construis ton arborescence", "Dans l’explorateur, crée TICE puis Documents, Images et À rendre.", 15, body);
+  challengeHost.innerHTML = challengeFrame(3, "FAUX EXPLORATEUR", "Construis ton arborescence", "Dans l’explorateur, crée un dossier TICE puis Documents, Images et À rendre.", 15, body);
   drawExplorer();
   document.querySelector("#newFolder").addEventListener("click", function () {
     const form = document.querySelector("#folderForm");
